@@ -281,7 +281,7 @@ func resourceNonLocalUserKeyDelete(ctx context.Context, d *schema.ResourceData, 
 	var diags diag.Diagnostics
 	client := m.(*vast_client.VMSSession)
 	resourceConfig := codegen_configs.GetResourceByName("NonLocalUserKey")
-	attrs := map[string]interface{}{"path": utils.GenPath("users/non_local_keys"), "id": d.Id()}
+	attrs := map[string]interface{}{"path": utils.GenPath("users/non_local_keys"), "id": d.Id(), "tenant_id": d.Get("tenant_id")}
 
 	response, err := resourceConfig.DeleteFunc(ctx, client, attrs, nil, map[string]string{})
 

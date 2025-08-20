@@ -197,11 +197,12 @@ func DeleteNonLocalUserKeyFunc(ctx context.Context, _client any, attr map[string
 	}
 	accessKey := s[1]
 	path := (*attributes)["path"]
-	payload := map[string]any{"access_key": accessKey, "uid": uid}
+	tenant_id := attr["tenant_id"]
+	payload := map[string]any{"access_key": accessKey, "uid": uid, "tenant_id": tenant_id}
 	buffer, marshallingError := json.Marshal(payload)
 	if marshallingError != nil {
 		return nil, marshallingError
 	}
-	tflog.Debug(ctx, fmt.Sprintf("Calling DELETE for %v", accessKey))
+	tflog.Debug(ctx, fmt.Sprintf("Calling DELETE for %v", accessKey, uid, tenant_id))
 	return client.Delete(ctx, path, "", bytes.NewReader(buffer), headers)
 }
